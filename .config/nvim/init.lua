@@ -1,0 +1,252 @@
+require('packer').startup(function(use)
+    use 'wbthomason/packer.nvim'
+    use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+}
+    use {
+	"windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+}
+    use({
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+        require("nvim-surround").setup({
+            -- Configuration here, or leave empty to use defaults
+        })
+    end
+})
+    use { 'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons', opt = true } }
+    use {'nvim-treesitter/nvim-treesitter', run = 'TSUpdate'}
+    use 'ellisonleao/gruvbox.nvim'
+    use 'sanfusu/neovim-undotree'
+    use {
+  'VonHeikemen/lsp-zero.nvim',
+  branch = 'v2.x',
+  requires = {
+    -- LSP Support
+    {'neovim/nvim-lspconfig'},             -- Required
+    {                                      -- Optional
+      'williamboman/mason.nvim',
+      run = function()
+        pcall(vim.cmd, 'MasonUpdate')
+      end,
+    },
+    {'williamboman/mason-lspconfig.nvim'}, -- Optional
+
+    -- Autocompletion
+    {'hrsh7th/nvim-cmp'},     -- Required
+    {'hrsh7th/cmp-nvim-lsp'}, -- Required
+    {'L3MON4D3/LuaSnip'},     -- Required
+  }
+}
+end)
+
+-- Set number and relative number
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+-- Options for search
+vim.opt.incsearch = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = true
+
+-- Allows to undo on closed files
+vim.opt.undofile = true
+
+-- disable swap files
+vim.opt.swapfile = false
+
+-- Various settings
+vim.opt.showcmd = true
+vim.opt.showmode =true
+vim.opt.showmatch = true
+vim.opt.wildmode = "longest,list,full"
+-- Allows to undo on closed files
+vim.opt.undofile = true
+
+-- Allows mouse support
+vim.opt.mouse = "a"
+
+-- Set encoding to be UTF-8
+vim.opt.encoding = "utf-8"
+
+
+-- Set path to be recursive, useful for find in parent dir
+-- vim.o.path = vim.o.path .. '**'
+
+-- Syntax options
+-- vim.cmd "syntax on"
+-- vim.cmd "filetype on"
+-- vim.cmd "filetype plugin on"
+-- vim.cmd "filetype indent on"
+
+-- Set tab-related options
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+-- Disable auto comments
+vim.cmd([[ autocmd FileType * setlocal formatoptions-=cro]])
+
+-- set splits to not be shit
+vim.cmd 'set splitbelow'
+vim.cmd 'set splitright'
+
+-- set cursor column for certain languages that are indent sensitive
+vim.cmd 'autocmd Filetype python set cursorcolumn'
+vim.cmd 'autocmd Filetype yaml set cursorcolumn'
+vim.cmd 'autocmd Filetype yml set cursorcolumn'
+
+-- spelling
+vim.cmd([[ setlocal spell spelllang=en_us]])
+vim.cmd([[ setlocal spell!]])
+
+-- set map leader to space
+vim.g.mapleader = ' '
+
+-- Binds
+vim.keymap.set('n', '<C-,>', ':tabprevious<CR>', { noremap = true })
+vim.keymap.set('n', '<C-.>', ':tabnext<CR>', { noremap = true })
+vim.keymap.set('n', '<A-b>', ':!$BROWSER %<CR><CR>', { noremap = true })
+vim.keymap.set('n', 'dx', '"_dd', { noremap = true })
+vim.keymap.set('n', '<leader>y', '"+y', { noremap = true })
+vim.keymap.set('n', '<leader>p', '"+p', { noremap = true })
+vim.keymap.set('n', '<leader>nh', ':noh<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>w', ':set wrap!<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>u', ':UndotreeToggle<CR>', {noremap = true})
+vim.keymap.set('n', '<leader>s', ':setlocal spell!<CR>', {noremap = true})
+vim.keymap.set('n', 'Q', '<Nop>', {noremap = true})
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- Navigate between splits using Ctrl + (h/j/k/l)
+vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
+
+-- Move to the split above, below, left, or right using Alt + (k/j/h/l)
+
+-- Move to the next/previous split using Ctrl + (w + w) or Ctrl + (w + p)
+vim.keymap.set('n', '<C-w><C-w>', '<C-w>w', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-w>p', '<C-w>p', { noremap = true, silent = true })
+
+-- Close the current split with Ctrl + w + c
+-- vim.keymap.set('n', '<C-w>c', ':close<CR>', { noremap = true, silent = true })
+
+-- Split the window horizontally and vertically
+-- vim.keymap.set('n', '<C-w>s', ':split', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<C-w>v', ':vsplit', { noremap = true, silent = true })
+
+-- Disable arrow keys
+vim.keymap.set('n', '<Up>', '<Nop>', { noremap = true })
+vim.keymap.set('n', '<Down>', '<Nop>', { noremap = true })
+vim.keymap.set('n', '<Left>', '<Nop>', { noremap = true })
+vim.keymap.set('n', '<Right>', '<Nop>', { noremap = true })
+vim.keymap.set('i', '<Up>', '<Nop>', { noremap = true })
+vim.keymap.set('i', '<Down>', '<Nop>', { noremap = true })
+vim.keymap.set('i', '<Left>', '<Nop>', { noremap = true })
+vim.keymap.set('i', '<Right>', '<Nop>', { noremap = true })
+
+-- Set theme to gruvbox dark
+vim.o.background = "dark" -- or "light" for light mode
+vim.cmd([[colorscheme gruvbox]])
+
+-- lua line config
+
+require('lualine').setup {
+  options = {
+    icons_enabled = false,
+    theme = 'auto',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {
+      statusline = {},
+      winbar = {},
+    },
+    ignore_focus = {},
+    always_divide_middle = true,
+    globalstatus = false,
+    refresh = {
+      statusline = 1000,
+      tabline = 1000,
+      winbar = 1000,
+    }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+-- treesitter config
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "c", "lua", "python", "vim", "vimdoc", "query", "bash", },
+    highlight = {
+        enable = true, -- Enable syntax highlighting
+    },
+    indent = {
+        enable = true,
+        disable = {"html"}
+    },
+}
+
+-- lsp config
+local lsp = require('lsp-zero').preset({})
+
+lsp.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.setup()
+
+
+lsp.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+lsp.setup()
+
+-- You need to setup `cmp` after lsp-zero
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+
+cmp.setup({
+  mapping = {
+    -- `Enter` key to confirm completion
+    ['<CR>'] = cmp.mapping.confirm({select = false}),
+
+    -- Ctrl+Space to trigger completion menu
+    ['<C-Space>'] = cmp.mapping.complete(),
+
+    -- Navigate between snippet placeholder
+    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+  }
+})
