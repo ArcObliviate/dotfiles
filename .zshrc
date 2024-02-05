@@ -1,30 +1,36 @@
 # Enable colors and change prompt:
-autoload -U colors && colors	# Load colors
+autoload -U colors && colors
 
 if [[ -n "$SSH_CLIENT" ]]; then
-    PS1="%F{red}[%F{yellow}%n%F{green}@%F{blue}%M %F{magenta}%~%F{red}]%F{red}ssh:%f "
+    PS1="%n@%M:%~%F{red}::ssh%f "
 else
-    PS1="%F{red}[%F{yellow}%n%F{green}@%F{blue}%M %F{magenta}%~%F{red}]%f$ "
+    PS1="%F{green}%n%f@%F{blue}%M %F{red}%~%f$ "
 fi
 
-setopt autocd		# Automatically cd into typed directory.
-stty stop undef		# Disable ctrl-s to freeze terminal.
+
+# Automatically cd into typed directory.
+setopt autocd
+
+# Disable ctrl-s to freeze terminal.
+stty stop undef
 stty -ixon
+
+# Enable extened globbing
 setopt extended_glob
-setopt interactive_comments
 
 # History settings
 HISTFILE=~/.zhistory
 SAVEHIST=100000
 HISTSIZE=100000
 setopt histignorealldups
+bindkey '^R' history-incremental-search-backward
 
 # Load aliases if existent.
 [ -f "$HOME/.aliasrc" ] && source "$HOME/.aliasrc"
 [ -f "$HOME/.shortcutrc" ] && source "$HOME/.shortcutrc"
 
 # LS_COLOR config
-LS_COLORS="di=1;4;33:fi=37:ex=4;31:*.jpg=32:*.jpeg=32:*.png=32:*.webp=32:*.mp3=36:*.mp4=36:*.webm=36:*.mkv=36:*.gif=32:*.py=4;32:*.c=4;32:*.sh=4;32:*.txt=4;37:*.torrent=34;46"
+LS_COLORS="di=1;4;33:fi=37:ex=4;31:*.jpg=32:*.jpeg=32:*.png=32:*.webp=32:*.mp3=36:*.ogg=36:*.mp4=36:*.webm=36:*.mkv=36:*.gif=32:*.py=4;32:*.lua=4;32:*.c=4;32:*.sh=4;32:*.txt=4;37:*.torrent=34;46"
 export LS_COLORS
 
 # functions
@@ -39,10 +45,22 @@ gb() {
         back+="../"
     done
     cd "$back"
+    unset back
 }
 
 rbg() {
-    $* > /dev/null 2>&1 &
+    "$@" > /dev/null 2>&1 &
+}
+
+swapflush() {
+    sudo swapoff -a
+    sudo swapon -a
+}
+
+free_cache() {
+    sudo sync && echo -n "1" | sudo tee /proc/sys/vm/drop_caches 
+
+    sudo swapoff -a && sudo swapon -a
 }
 
 # Basic auto/tab complete:

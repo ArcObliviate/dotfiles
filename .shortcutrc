@@ -1,0 +1,11 @@
+# shortcuts for files
+alias \
+    cfz='$EDITOR ~/.zshrc' \
+    cfv='$EDITOR ~/.config/nvim/' \
+    cfa='$EDITOR ~/.aliasrc' \
+    cfs='$EDITOR ~/.shortcutrc' \
+    cfk='$EDITOR ~/.config/kitty/kitty.conf' \
+
+#shortcuts for dirs
+alias \
+    dib='cd $HOME/.local/bin && ls'

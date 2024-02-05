@@ -1,5 +1,5 @@
 # Use neovim for vim if present.
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+[ -x '$(command -v nvim)' ] && alias vim='nvim' vimdiff='nvim -d'
 
 # settings that should be default
 alias \
@@ -8,15 +8,15 @@ alias \
     ffplay='ffplay -hide_banner' \
     cp='cp -iv' \
     mv='mv -iv' \
-    rm='rm -vI' \
+    rm='rm -Iv' \
     mkdir='mkdir -p' \
 
-# color
+# color and stuff
 alias \
     grep='grep --color=auto' \
-    ls='ls -h --quoting-style=shell-escape --color=auto --group-directories-first'  \
+    ls='ls -h --color=auto --group-directories-first'  \
+    lsd='ls -d */' \
     diff='diff --color=auto'  \
-    ip='ip color=auto' \
 
 # too long
 alias \
@@ -28,6 +28,16 @@ alias \
     mirror='sudo reflector --latest 100 --completion-percent 100 --sort rate --verbose --save /etc/pacman.d/mirrorlist' \
     fmirror='sudo reflector --latest 100 --protocol http,ftp --sort rate --verbose --save /etc/pacman.d/mirrorlist' \
     smirror='sudo reflector --latest 100 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist' \
-    weather='curl wttr.in' \
+    weather='curl wttr.in/rushden' \
     py='python' \
     clean='pacman -Qdtq | sudo pacman -Rns -' \
+
+# power aliases
+alias \
+    sdn='sudo shutdown now' \
+    ssdn='sudo systemctl poweroff' \
+    reb='sudo systemctl reboot' \
+    slp='sudo systemctl suspend' \
+    hbn='swapflush && sudo systemctl hibernate' \
+    snh='sudo systemctl suspend-then-hibernate' \
+    hyb='sudo systemctl hybrid-sleep' \
